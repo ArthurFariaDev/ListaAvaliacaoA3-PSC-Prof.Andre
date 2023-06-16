@@ -1,0 +1,69 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Solicita o tamanho da matriz
+        System.out.print("Digite o tamanho das matrizes quadradas: ");
+        int tamanho = scanner.nextInt();
+
+        // Cria as matrizes
+        int[][] matriz1 = new int[tamanho][tamanho];
+        int[][] matriz2 = new int[tamanho][tamanho];
+
+        // Preenche a primeira matriz
+        System.out.println("Preencha a primeira matriz:");
+        preencherMatriz(matriz1, scanner);
+
+        // Preenche a segunda matriz
+        System.out.println("Preencha a segunda matriz:");
+        preencherMatriz(matriz2, scanner);
+
+        // Calcula a soma das matrizes
+        int[][] matrizSoma = somarMatrizes(matriz1, matriz2);
+
+        // Exibe a matriz resultante
+        System.out.println("Matriz resultante da soma:");
+        exibirMatriz(matrizSoma);
+    }
+
+    // Função para preencher uma matriz com valores informados pelo usuário
+    public static void preencherMatriz(int[][] matriz, Scanner scanner) {
+        int tamanho = matriz.length;
+
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                System.out.print("Digite o valor para a posição [" + i + "][" + j + "]: ");
+                matriz[i][j] = scanner.nextInt();
+            }
+        }
+    }
+
+    // Função para somar duas matrizes
+    public static int[][] somarMatrizes(int[][] matriz1, int[][] matriz2) {
+        int tamanho = matriz1.length;
+        int[][] matrizSoma = new int[tamanho][tamanho];
+
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                matrizSoma[i][j] = matriz1[i][j] + matriz2[i][j];
+            }
+        }
+
+        return matrizSoma;
+    }
+
+    // Função para exibir uma matriz
+    public static void exibirMatriz(int[][] matriz) {
+        int tamanho = matriz.length;
+
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                System.out.print(matriz[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
