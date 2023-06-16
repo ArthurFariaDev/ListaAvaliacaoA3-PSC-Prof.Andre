@@ -1,0 +1,95 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner teclado = new Scanner(System.in);
+
+        String[] nomesCandidatos = new String[5];
+        int[] numerosCandidatos = new int[5];
+        int[] votosCandidatos = new int[5];
+        int totalVotos = 0;
+
+        // Cadastro dos candidatos
+        for (int i = 0; i < 5; i++) {
+            System.out.print("Digite o nome do candidato " + (i + 1) + ": ");
+            nomesCandidatos[i] = teclado.nextLine();
+
+            System.out.print("Digite o número do candidato " + (i + 1) + ": ");
+            numerosCandidatos[i] = teclado.nextInt();
+            teclado.nextLine(); // Limpar o buffer do teclado
+        }
+
+        // Votação
+        System.out.println("----- VOTAÇÃO -----");
+        System.out.println("Digite o número do candidato desejado para votar (ou digite 0 para encerrar a votação):");
+
+        int voto;
+        do {
+            voto = teclado.nextInt();
+            teclado.nextLine(); // Limpar o buffer do teclado
+
+            boolean candidatoEncontrado = false;
+
+            for (int i = 0; i < 5; i++) {
+                if (numerosCandidatos[i] == voto) {
+                    votosCandidatos[i]++;
+                    totalVotos++;
+                    candidatoEncontrado = true;
+                    break;
+                }
+            }
+
+            if (!candidatoEncontrado && voto != 0) {
+                System.out.println("Candidato não encontrado. Digite novamente:");
+            }
+        } while (voto != 0);
+
+        // Resultado da votação
+        System.out.println("----- RESULTADO DA VOTAÇÃO -----");
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Candidato: " + nomesCandidatos[i]);
+            System.out.println("Número: " + numerosCandidatos[i]);
+            System.out.println("Total de votos: " + votosCandidatos[i]);
+            System.out.println("------------------------");
+        }
+
+        // Verificar se algum candidato obteve 50% dos votos
+        boolean eleicaoNova = false;
+        int maiorVotacao = 0;
+        int indiceMaiorVotacao = 0;
+        int segundaMaiorVotacao = 0;
+        int indiceSegundaMaiorVotacao = 0;
+
+        for (int i = 0; i < 5; i++) {
+            if (votosCandidatos[i] > maiorVotacao) {
+                segundaMaiorVotacao = maiorVotacao;
+                indiceSegundaMaiorVotacao = indiceMaiorVotacao;
+                maiorVotacao = votosCandidatos[i];
+                indiceMaiorVotacao = i;
+            } else if (votosCandidatos[i] > segundaMaiorVotacao) {
+                segundaMaiorVotacao = votosCandidatos[i];
+                indiceSegundaMaiorVotacao = i;
+            }
+        }
+
+        double porcentagemMaiorVotacao = (double) maiorVotacao / totalVotos * 100;
+
+        if (porcentagemMaiorVotacao < 50) {
+            eleicaoNova = true;
+            System.out.println("----- SEGUNDA VOTAÇÃO -----");
+            System.out.println("Nova votação entre os dois candidatos com maior votação:");
+
+            System.out.println("Candidato: " + nomesCandidatos[indiceMaiorVotacao]);
+            System.out.println("Número: " + numerosCandidatos[indiceMaiorVotacao]);
+            System.out.println("------------------------");
+
+            System.out.println("Candidato: " + nomesCandidatos[indiceSegundaMaiorVotacao]);
+            System.out.println("Número: " + numerosCandidatos[indiceSegundaMaiorVotacao]);
+            System.out.println("------------------------");
+        }
+
+        if (!eleicaoNova) {
+            System.out.println("O candidato " + nomesCandidatos[indiceMaiorVotacao] + " venceu a eleição com " + maiorVotacao + " votos.");
+        }
+    }
+}
